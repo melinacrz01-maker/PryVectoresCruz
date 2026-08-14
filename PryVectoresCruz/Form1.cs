@@ -27,7 +27,7 @@ namespace PryVectoresCruz
         private void button1_Click(object sender, EventArgs e)
         {
             int i = cmbmes.SelectedIndex;
-            Decimal importe = Convert.ToDecimal(txtImporte);
+            Decimal importe = Convert.ToDecimal(txtImporte.Text);
             Importe[i] = importe;
             
             MessageBox.Show("Dato cargado correctamente");
@@ -50,12 +50,51 @@ namespace PryVectoresCruz
 
         private void btnCargaFor_Click(object sender, EventArgs e)
         {
-            DgvImporte.Rows.Clear();
-            for (int i = 0; i < 12; i++)
+            int i = cmbmes.SelectedIndex;
+            Importe[i] = Convert.ToDecimal(txtImporte.Text);
+            DgvImporte.Rows.Add(Meses[i], Importe[i]);
+            MessageBox.Show("Dato cargado correctamente");
             {
-                DgvImporte.Rows.Add(Meses[i], Importe[i]);
+
             }
         }
-        
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            DgvImporte.Rows.Clear();
+            for (int i = 0; i < Meses.Length; i++)
+            {
+                if (Importe[i] != 0)
+                {
+                    DgvImporte.Rows.Add(Meses[i], Importe[i]);
+                } 
+            }
+        }
+
+        private void txtImporte_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtImporte_KeyDown(object sender, KeyEventArgs e)
+        {
+            if ((e.KeyCode == Keys.Enter))
+            {
+                int i = cmbmes.SelectedIndex;
+                Importe[i] = Convert.ToDecimal(txtImporte.Text);
+                DgvImporte.Rows.Add(Meses[i], Importe[i]);
+                txtImporte.Clear();
+
+                if (cmbmes.SelectedIndex != -1)
+                {
+                    DgvImporte.Rows.Add(Meses[cmbmes.SelectedIndex], Importe[cmbmes.SelectedIndex]);
+                }
+                else
+                {
+                    MessageBox.Show("Seleccione un mes");
+                }
+                 e.SuppressKeyPress = true;
+            }
+        }
     }
 }
